@@ -17,8 +17,8 @@ remains the final environment-specific gate.
 
 The 2026-07-30 stabilization work changed networking, validation, installers,
 the persistence layer, every game's saved-state contract, and several Basalt
-screens. The expanded suite now contains 67 named tests across 16 suites and
-271 static assertion sites. All 67 tests pass on Cobalt 0.9.9 extracted from
+screens. The expanded suite now contains 70 named tests across 17 suites and
+303 static assertion sites. All 70 tests pass on Cobalt 0.9.9 extracted from
 the locally installed CC:Tweaked 1.119.0 mod.
 
 ## Implemented requirements
@@ -58,14 +58,16 @@ the locally installed CC:Tweaked 1.119.0 mod.
 - Cashier input/vault/output inventory adapter
 - Role-based disk installer that preserves configuration, live data, and the
   first pre-existing startup program
+- One-command public GitHub bootstrap with role-specific downloads, isolated
+  staging, installed preflight tools, and preservation-safe updates
 
 ## Automated and static evidence
 
-- The package contains 105 Lua files. All 105 compile successfully on Cobalt
+- The package contains 107 Lua files. All 107 compile successfully on Cobalt
   0.9.9, and all 195 internal
   `require()` references resolve; `basalt` is the one intentional installed
   dependency.
-- The previous thirty-two-test baseline passed before stabilization. Thirty-five
+- The previous thirty-two-test baseline passed before stabilization. Thirty-eight
   additional named tests cover session recovery, player-name validation,
   public display access, acceptance isolation, bounded and finite requests,
   option sanitization, startup preservation, finite balance limits,
@@ -75,9 +77,10 @@ the locally installed CC:Tweaked 1.119.0 mod.
   paytable compatibility, fair Horse Racing payouts, maximum-balance settlement,
   duplicate persisted identifiers, exact-request recovery after a committed
   response-cache failure, and construction of every client UI. The real
-  acceptance program, representative role preflights, and terminal
-  installer/update path are also executed against deterministic ComputerCraft
-  fixtures. The combined 67-test suite passes.
+  acceptance program, representative role preflights, terminal
+  installer/update path, and server/terminal/admin GitHub bootstrap paths are
+  also executed against deterministic ComputerCraft fixtures. The combined
+  70-test suite passes.
 - Tests cover ace scoring, face-card scoring, double eligibility, Slots wins and
   losses, initial balances, overdraft rejection, duplicate financial requests,
   duplicate game creation, Blackjack settlement, duplicate active-hand

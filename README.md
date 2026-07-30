@@ -191,10 +191,24 @@ adjustment before betting.
 
 ## Running in Minecraft
 
-Put this complete repository on a ComputerCraft disk at `/disk/casino`, then:
+For the simplest installation, enable the CC:Tweaked HTTP API and run the
+public GitHub bootstrap on each new computer:
+
+```text
+wget run https://raw.githubusercontent.com/Harvey12432/mc-casino/main/bootstrap.lua server
+wget run https://raw.githubusercontent.com/Harvey12432/mc-casino/main/bootstrap.lua slots
+```
+
+Replace `slots` with the required terminal role. The bootstrap downloads only
+that role, stages it outside `/casino`, runs the existing preservation-safe
+installer, installs the preflight tool, and removes the staging directory after
+success.
+
+For an offline installation, put this complete repository on a ComputerCraft
+disk at `/disk/casino`. Then:
 
 1. On the central computer, run
-   `disk/casino/installer/install_server.lua`.
+   the GitHub command above or `disk/casino/installer/install_server.lua`.
 2. Edit `/casino/config.lua`, including trusted cashier and admin computer IDs.
 3. On each client computer, run one of:
    - `disk/casino/installer/install_terminal.lua blackjack`

@@ -1,9 +1,20 @@
 # Operations Guide
 
-## 1. Prepare the package
+## 1. Choose an installation source
 
-Copy the repository folder to a ComputerCraft disk so the installer is located
-at `/disk/casino/installer`.
+The recommended public GitHub installer needs no disk:
+
+```text
+wget run https://raw.githubusercontent.com/Harvey12432/mc-casino/main/bootstrap.lua server
+```
+
+Replace `server` with a terminal role when installing a client. HTTP must be
+enabled in the CC:Tweaked server configuration. A failed download stops before
+changing `/casino` and leaves `/.mc-casino-download` available for inspection.
+Successful installation removes that staging directory.
+
+For an offline installation, copy the repository folder to a ComputerCraft disk
+so the installer is located at `/disk/casino/installer`.
 
 All computers need an attached modem. Advanced computers are recommended for
 clients. Run `id` on the cashier and admin computers and record their numeric
@@ -11,7 +22,13 @@ ComputerCraft IDs.
 
 ## 2. Install the central server
 
-Run:
+Using GitHub, run:
+
+```text
+wget run https://raw.githubusercontent.com/Harvey12432/mc-casino/main/bootstrap.lua server
+```
+
+Or, using the offline disk, run:
 
 ```text
 disk/casino/installer/install_server.lua
@@ -62,7 +79,14 @@ reported path.
 
 ## 3. Install clients
 
-On each computer, insert the package disk and run:
+On each computer, run the GitHub command with the matching role:
+
+```text
+wget run https://raw.githubusercontent.com/Harvey12432/mc-casino/main/bootstrap.lua blackjack
+wget run https://raw.githubusercontent.com/Harvey12432/mc-casino/main/bootstrap.lua slots
+```
+
+Alternatively, insert the offline package disk and run:
 
 ```text
 disk/casino/installer/install_terminal.lua blackjack
@@ -137,10 +161,13 @@ clear the marker with `unset casino.cashier.pending`.
 Use disposable items for this test.
 
 1. On every installed computer, run
-   `disk/casino/dev/preflight.lua <role>` using its actual role. Resolve every
+   `/casino/dev/preflight.lua <role>` using its actual role. For an offline
+   disk install, use `disk/casino/dev/preflight.lua <role>`. Resolve every
    failure before continuing.
 2. From the installed, authorised admin computer, run
-   `disk/casino/dev/acceptance.lua`. It plays all ten games and restores its
+   `/casino/dev/acceptance.lua` after a GitHub installation, or
+   `disk/casino/dev/acceptance.lua` from the offline disk. It plays all ten
+   games and restores its
    test balance; confirm every check passes. Acceptance games use isolated
    transaction kinds, do not move the live progressive jackpot, do not change
    house-profit reporting, and do not appear in recent wins or the public
@@ -178,7 +205,15 @@ matches the rules enforced by this release.
 
 ## 6. Updates
 
-With the package disk inserted:
+The GitHub bootstrap also performs preservation-safe updates. Rerun the same
+role command:
+
+```text
+wget run https://raw.githubusercontent.com/Harvey12432/mc-casino/main/bootstrap.lua server
+wget run https://raw.githubusercontent.com/Harvey12432/mc-casino/main/bootstrap.lua blackjack
+```
+
+For an offline update with the package disk inserted:
 
 ```text
 disk/casino/installer/update.lua server

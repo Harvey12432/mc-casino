@@ -29,6 +29,7 @@ local suites = {
   "tests.test_ui_smoke",
   "tests.test_acceptance",
   "tests.test_preflight",
+  "tests.test_github_bootstrap",
 }
 
 local passed = 0
