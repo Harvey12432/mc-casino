@@ -1,0 +1,12 @@
+# Local verification and build artifacts
+.tmp-*/
+*.class
+*.jar
+*.log
+*.bak
+
+# Editor and operating-system metadata
+.idea/
+.vscode/
+.DS_Store
+Thumbs.db
