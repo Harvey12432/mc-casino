@@ -1,6 +1,6 @@
 # System Audit
 
-Audit date: 2026-07-30
+Audit date: 2026-07-31
 
 ## Verdict
 
@@ -17,8 +17,8 @@ remains the final environment-specific gate.
 
 The 2026-07-30 stabilization work changed networking, validation, installers,
 the persistence layer, every game's saved-state contract, and several Basalt
-screens. The expanded suite now contains 70 named tests across 17 suites and
-303 static assertion sites. All 70 tests pass on Cobalt 0.9.9 extracted from
+screens. The expanded suite now contains 73 named tests across 18 suites and
+337 static assertion sites. All 73 tests pass on Cobalt 0.9.9 extracted from
 the locally installed CC:Tweaked 1.119.0 mod.
 
 ## Implemented requirements
@@ -60,14 +60,17 @@ the locally installed CC:Tweaked 1.119.0 mod.
   first pre-existing startup program
 - One-command public GitHub bootstrap with role-specific downloads, isolated
   staging, installed preflight tools, and preservation-safe updates
+- A role-specific first-run setup wizard with peripheral discovery, validated
+  prompts, review-before-save, safe configuration backup, and a replayable
+  `/casino/setup.lua` command on every computer
 
 ## Automated and static evidence
 
-- The package contains 107 Lua files. All 107 compile successfully on Cobalt
+- The package contains 109 Lua files. All 109 compile successfully on Cobalt
   0.9.9, and all 195 internal
   `require()` references resolve; `basalt` is the one intentional installed
   dependency.
-- The previous thirty-two-test baseline passed before stabilization. Thirty-eight
+- The previous thirty-two-test baseline passed before stabilization. Forty-one
   additional named tests cover session recovery, player-name validation,
   public display access, acceptance isolation, bounded and finite requests,
   option sanitization, startup preservation, finite balance limits,
@@ -80,7 +83,9 @@ the locally installed CC:Tweaked 1.119.0 mod.
   acceptance program, representative role preflights, terminal
   installer/update path, and server/terminal/admin GitHub bootstrap paths are
   also executed against deterministic ComputerCraft fixtures. The combined
-  70-test suite passes.
+  73-test suite passes. Setup tests additionally cover server values, trusted-ID
+  de-duplication, role detection, cashier inventory selection, safe backup, and
+  cancellation without changing the existing configuration.
 - Tests cover ace scoring, face-card scoring, double eligibility, Slots wins and
   losses, initial balances, overdraft rejection, duplicate financial requests,
   duplicate game creation, Blackjack settlement, duplicate active-hand

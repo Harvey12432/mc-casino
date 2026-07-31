@@ -36,4 +36,15 @@ function installer.replaceFilePreserving(source, destination, backup)
   fs.copy(source, destination)
 end
 
+function installer.writeText(path, contents)
+  installer.ensureDirectory(fs.getDir(path))
+  local temporary = path .. ".new"
+  if fs.exists(temporary) then fs.delete(temporary) end
+  local output = assert(fs.open(temporary, "w"), "Unable to write " .. path)
+  output.write(contents)
+  output.close()
+  if fs.exists(path) then fs.delete(path) end
+  fs.move(temporary, path)
+end
+
 return installer

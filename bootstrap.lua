@@ -89,6 +89,7 @@ local files = {
   "config.example.lua",
   "dev/preflight.lua",
   "installer/lib.lua",
+  "installer/setup.lua",
 }
 local function append(values)
   for _, value in ipairs(values) do files[#files + 1] = value end
@@ -178,4 +179,4 @@ end
 
 fs.delete(stagingRoot)
 print(("MC Casino %s installation complete."):format(role))
-print("Edit /casino/config.lua as instructed, then reboot.")
+print("Run /casino/setup.lua whenever you need to change settings.")

@@ -29,6 +29,7 @@ loaded:
 - Copy-on-write JSON commits with schema validation and backup recovery
 - Game-specific saved-state and payout-integrity checks
 - Idempotent financial and game requests
+- Guided role-aware configuration with automatic peripheral discovery
 
 The automated audit and remaining operational caveats are recorded in
 [System audit](docs/SYSTEM_AUDIT.md).
@@ -202,14 +203,16 @@ wget run https://raw.githubusercontent.com/Harvey12432/mc-casino/main/bootstrap.
 Replace `slots` with the required terminal role. The bootstrap downloads only
 that role, stages it outside `/casino`, runs the existing preservation-safe
 installer, installs the preflight tool, and removes the staging directory after
-success.
+success. On a new computer, a full-screen setup wizard opens automatically.
+It shows only settings relevant to that role and can be reopened later with
+`/casino/setup.lua`.
 
 For an offline installation, put this complete repository on a ComputerCraft
 disk at `/disk/casino`. Then:
 
 1. On the central computer, run
    the GitHub command above or `disk/casino/installer/install_server.lua`.
-2. Edit `/casino/config.lua`, including trusted cashier and admin computer IDs.
+2. Complete the server setup wizard, including trusted cashier and admin IDs.
 3. On each client computer, run one of:
    - `disk/casino/installer/install_terminal.lua blackjack`
    - `disk/casino/installer/install_terminal.lua slots`
@@ -224,7 +227,7 @@ disk at `/disk/casino`. Then:
    - `disk/casino/installer/install_terminal.lua cashier`
    - `disk/casino/installer/install_terminal.lua leaderboard`
    - `disk/casino/installer/install_terminal.lua admin`
-4. Configure the three cashier peripheral names in its `/casino/config.lua`.
+4. Complete the cashier wizard and select its three detected inventories.
 5. Attach modems, label every computer, and reboot the server before clients.
 
 The installers copy the correct role, create `/startup.lua`, preserve local

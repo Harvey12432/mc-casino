@@ -34,26 +34,20 @@ Or, using the offline disk, run:
 disk/casino/installer/install_server.lua
 ```
 
-Edit `/casino/config.lua`:
+On a new computer, the server setup wizard opens automatically. It detects the
+attached modem and guides you through:
 
-```lua
-return {
-  casinoId = "main-floor",
-  serverHostname = "mc-casino-main",
-  authorizedCashierIds = { 12 },
-  authorizedAdminIds = { 13 },
-  currencyItem = "minecraft:emerald",
-  creditsPerItem = 1,
-  minimumBet = 5,
-  maximumBet = 500,
-  maximumBalance = 1000000000,
-  blackjackDecks = 6,
-  dealerHitsSoft17 = false,
-}
-```
+- shared casino identity and server hostname;
+- trusted cashier and administrator computer IDs;
+- currency item and credits-per-item conversion;
+- minimum bet, maximum bet, and maximum player balance; and
+- Blackjack shoe size and the soft-17 rule.
 
-Replace `12` and `13` with the IDs from the actual computers. Reboot. The server
-should print that it is online.
+Every screen validates its answer and shows the current value. Review the final
+summary, save, and run `/casino/dev/preflight.lua server`. Reopen the wizard at
+any time with `/casino/setup.lua`; it preserves the previous configuration at
+`/casino/config.before-setup.lua`. Reboot only after preflight passes. The
+server should then print that it is online.
 
 `blackjackDecks` may be 1–8. Bets and all balances are whole credits. If a win
 would raise an account above `maximumBalance`, only the available capacity is
@@ -109,6 +103,11 @@ installation downloads the pinned Basalt 2.5 bundle, so HTTP must be enabled
 temporarily. Rerunning the installer upgrades an older Basalt installation and
 records the installed revision in `/casino/basalt.version`.
 
+Each new role opens its own setup wizard. Game and admin terminals ask only for
+casino identity, server hostname, and a detected modem. Cashier and leaderboard
+roles add their relevant peripherals. Run `/casino/setup.lua` later to review
+or change that computer without editing Lua.
+
 On first boot, player, cashier, and admin clients ask for a name and store it in
 the CC:Tweaked settings file. Game terminals include **CHANGE PLAYER**, which
 closes the current session, clears the saved name, and returns to the login
@@ -127,20 +126,10 @@ The cashier needs three inventories visible as peripherals:
 - Vault: deposited items are stored here.
 - Output: withdrawn prizes appear here.
 
-Run `peripherals` to find their network names, then set them in the cashier's
-`/casino/config.lua`:
-
-```lua
-return {
-  casinoId = "main-floor",
-  serverHostname = "mc-casino-main",
-  cashierInput = "minecraft:chest_0",
-  cashierVault = "minecraft:barrel_1",
-  cashierOutput = "minecraft:chest_2",
-  currencyItem = "minecraft:emerald",
-  creditsPerItem = 1,
-}
-```
+The cashier setup wizard lists compatible attached inventories. Select a
+different detected peripheral for input, vault, and output, then confirm the
+currency item and conversion rate. It rejects duplicate or incompatible
+choices before saving.
 
 The server and cashier must use the same currency item and conversion rate.
 The cashier refuses to start when either value differs, and its preflight

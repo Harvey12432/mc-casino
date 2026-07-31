@@ -54,6 +54,7 @@ function tests.terminal_installer_stages_basalt_and_preserves_local_files_on_upd
     ["src/client/slots/main.lua"] = "slots-main-v1",
     ["src/client/slots/startup.lua"] = "slots-startup-v1",
     ["src/client/slots/ui.lua"] = "slots-ui-v1",
+    ["installer/setup.lua"] = "setup-wizard",
     ["config.example.lua"] = "example-config",
     ["/casino/config.lua"] = "local-config",
     ["/startup.lua"] = "existing-startup",
@@ -70,6 +71,7 @@ function tests.terminal_installer_stages_basalt_and_preserves_local_files_on_upd
     ["/casino"] = true,
   }
   local downloads = 0
+  local setupRuns = {}
 
   local function combine(first, second)
     if first == "" then return second end
@@ -146,6 +148,10 @@ function tests.terminal_installer_stages_basalt_and_preserves_local_files_on_upd
     getRunningProgram = function()
       return "installer/install_terminal.lua"
     end,
+    run = function(path, argument)
+      setupRuns[#setupRuns + 1] = { path = path, argument = argument }
+      return true
+    end,
   }
 
   local ok, testError = pcall(function()
@@ -161,6 +167,8 @@ function tests.terminal_installer_stages_basalt_and_preserves_local_files_on_upd
     assert(files["/casino/client/slots/main.lua"] == "slots-main-v1")
     assert(files["/casino/client/shared/components.lua"] == "shared-components")
     assert(files["/casino/shared/protocol.lua"] == "shared-protocol")
+    assert(files["/casino/setup.lua"] == "setup-wizard")
+    assert(files["/casino/role"] == "slots")
 
     files["src/client/slots/main.lua"] = "slots-main-v2"
     files["src/client/slots/startup.lua"] = "slots-startup-v2"
@@ -171,6 +179,14 @@ function tests.terminal_installer_stages_basalt_and_preserves_local_files_on_upd
     assert(files["/startup.lua"] == "slots-startup-v2")
     assert(files["/startup.before-mc-casino.lua"] == "existing-startup")
     assert(files["/casino/config.lua"] == "local-config")
+
+    files["/casino/config.lua"] = nil
+    install = assert(loadfile("installer/install_terminal.lua"))
+    install("slots")
+    assert(#setupRuns == 1)
+    assert(setupRuns[1].path == "/casino/setup.lua")
+    assert(setupRuns[1].argument == "slots")
+    assert(files["/casino/config.lua"] == "example-config")
   end)
 
   _G.fs = original.fs

@@ -24,6 +24,7 @@ end
 
 local sourceRoot = fs.getDir(fs.getDir(shell.getRunningProgram()))
 local Installer = dofile(fs.combine(sourceRoot, "installer/lib.lua"))
+local hadConfiguration = fs.exists("/casino/config.lua")
 local basaltVersion = "2.5+a01ea6d577c92fcf76b5689f89eaf2920d011b82"
 local basaltExpectedBytes = 277062
 local basaltDownloadUrl =
@@ -101,12 +102,26 @@ Installer.copyFileIfMissing(
 )
 
 Installer.replaceFilePreserving(
+  fs.combine(sourceRoot, "installer/setup.lua"),
+  "/casino/setup.lua"
+)
+Installer.writeText("/casino/role", role)
+
+Installer.replaceFilePreserving(
   fs.combine(sourceRoot, "src/client/" .. role .. "/startup.lua"),
   "/startup.lua",
   "/startup.before-mc-casino.lua"
 )
 
-print(("The %s client is installed. Edit /casino/config.lua, then reboot."):format(role))
+print(("The %s client is installed."):format(role))
 if fs.exists("/startup.before-mc-casino.lua") then
   print("Previous startup preserved at /startup.before-mc-casino.lua")
+end
+if not hadConfiguration then
+  print("Starting first-run configuration...")
+  if not shell.run("/casino/setup.lua", role) then
+    error("First-run configuration did not complete")
+  end
+else
+  print("Run /casino/setup.lua to review or change this computer's settings.")
 end

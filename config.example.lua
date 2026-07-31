@@ -1,4 +1,4 @@
--- Copy to /casino/config.lua and customise for each computer.
+-- Fallback defaults for the installer. Use /casino/setup.lua to configure each computer.
 return {
   casinoId = "main-floor",
   serverHostname = "mc-casino-main",
